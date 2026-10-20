@@ -1,0 +1,16 @@
+{
+  "9.9.2.3": {
+    "format": 4,
+    "minLength": 1,
+    "maxLength": 9,
+    "source": "TS 24.008, clause 10.5.1.4, referenced by TS 24.301 clause 9.9.2.3",
+    "reason": "The generic Mobile identity envelope includes the one-octet no-identity value and the nine-octet IMEISV value. TS 24.301 message tables only list context-specific subsets (for example TMSI or IMEISV), so their combined minimum is not the generic minimum. This bound is a manually maintained interpretation of the referenced specification, not an automatic extraction from TS 24.008."
+  },
+  "9.9.3.16": {
+    "format": 3,
+    "minLength": 1,
+    "maxLength": 1,
+    "source": "TS 24.301 tables 8.2.1.1 and 8.2.29.1; clause 9.9.3.16 references TS 24.008 clause 10.5.7.3",
+    "reason": "GPRS timer is V with one value octet or TV with two total octets. In table 8.2.29.1 the T3324 row names GPRS timer 2 (TLV, three total octets), but references 9.9.3.16 instead of 9.9.3.16A. Do not let this conflicting reference change the format of GPRS timer to type 4."
+  }
+}
