@@ -5,10 +5,15 @@ import (
 	"io"
 )
 
-// Network resource identifier bounds defined by TS 24.008 clause 10.5.5.31.
+// NetworkResourceIdentifier is the 10-bit part of a TMSI that identifies the
+// network resource, as defined by TS 24.008 clause 10.5.5.31.
+type NetworkResourceIdentifier uint16
+
 const (
-	NetworkResourceIdentifierMinimum uint16 = 0
-	NetworkResourceIdentifierMaximum uint16 = 0x03ff
+	// NetworkResourceIdentifierMinimum is the lowest valid NRI value.
+	NetworkResourceIdentifierMinimum NetworkResourceIdentifier = 0
+	// NetworkResourceIdentifierMaximum is the highest valid NRI value.
+	NetworkResourceIdentifierMaximum NetworkResourceIdentifier = 0x03ff
 )
 
 // NetworkResourceIdentifierContainerFields is the structured value of the
@@ -16,7 +21,7 @@ const (
 // 24.008 clause 10.5.5.31). NetworkResourceIdentifier consists of bits 23 to
 // 14 of a valid TMSI.
 type NetworkResourceIdentifierContainerFields struct {
-	NetworkResourceIdentifier uint16
+	NetworkResourceIdentifier NetworkResourceIdentifier
 }
 
 // NewNetworkResourceIdentifierContainerWithFields creates a tagged Network
@@ -112,7 +117,7 @@ func (f *NetworkResourceIdentifierContainerFields) UnmarshalBinary(payload []byt
 		return fmt.Errorf("%w: network resource identifier container spare bits are nonzero", ErrInvalidValue)
 	}
 	*f = NetworkResourceIdentifierContainerFields{
-		NetworkResourceIdentifier: uint16(payload[0])<<2 | uint16(payload[1]>>6),
+		NetworkResourceIdentifier: NetworkResourceIdentifier(uint16(payload[0])<<2 | uint16(payload[1]>>6)),
 	}
 	return nil
 }
