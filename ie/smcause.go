@@ -99,3 +99,12 @@ const (
 	/// #113 Multiple accesses to a PDN connection not allowed.
 	MultipleAccessesToAPdnConnectionNotAllowedSmCause SmCause = 0x71
 )
+
+// ESMCause returns the ESM cause using the existing SmCause enumeration.
+func (i *IE) ESMCause() (SmCause, error) {
+	if err := i.requireDefinition(ESMCauseDefinition); err != nil {
+		return 0, err
+	}
+	v, err := i.ValueAsUint8()
+	return SmCause(v), err
+}

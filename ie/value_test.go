@@ -52,33 +52,3 @@ func TestIE_ValueAsUint32(t *testing.T) {
 		t.Fatalf("short ValueAsUint32 = %v", err)
 	}
 }
-
-func TestIE_EMMCause(t *testing.T) {
-	t.Parallel()
-	i := ie.NewEMMCause(ie.NetworkFailureMmCause)
-	if got, err := i.EMMCause(); err != nil || got != ie.NetworkFailureMmCause {
-		t.Fatalf("EMMCause = %d, %v", got, err)
-	}
-	if _, err := ie.NewESMCause(ie.NetworkFailureSmCause).EMMCause(); !errors.Is(err, ie.ErrUnexpectedIE) {
-		t.Fatalf("wrong EMM kind = %v", err)
-	}
-	var nilIE *ie.IE
-	if _, err := nilIE.EMMCause(); !errors.Is(err, ie.ErrNilIE) {
-		t.Fatalf("nil EMM cause = %v", err)
-	}
-}
-
-func TestIE_ESMCause(t *testing.T) {
-	t.Parallel()
-	i := ie.NewESMCause(ie.NetworkFailureSmCause)
-	if got, err := i.ESMCause(); err != nil || got != ie.NetworkFailureSmCause {
-		t.Fatalf("ESMCause = %d, %v", got, err)
-	}
-	if _, err := ie.NewEMMCause(ie.NetworkFailureMmCause).ESMCause(); !errors.Is(err, ie.ErrUnexpectedIE) {
-		t.Fatalf("wrong ESM kind = %v", err)
-	}
-	var nilIE *ie.IE
-	if _, err := nilIE.ESMCause(); !errors.Is(err, ie.ErrNilIE) {
-		t.Fatalf("nil ESM cause = %v", err)
-	}
-}

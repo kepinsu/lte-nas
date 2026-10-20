@@ -87,3 +87,12 @@ const (
 	/// #111 Protocol error unspecified.
 	ProtocolErrorUnspecifiedMmCause MmCause = 0x6F
 )
+
+// EMMCause returns the EMM cause using the existing MmCause enumeration.
+func (i *IE) EMMCause() (MmCause, error) {
+	if err := i.requireDefinition(EMMCauseDefinition); err != nil {
+		return 0, err
+	}
+	v, err := i.ValueAsUint8()
+	return MmCause(v), err
+}
