@@ -25,7 +25,9 @@
 // with its value in the low nibble, not a complete on-wire octet assignment.
 //
 // Payloads are owned copies and remain accessible, in the style of go-gtp.
-// Compound values (identities, capabilities, QoS, TFT, containers, etc.) are
-// transported as their TS-defined value octets, without semantic interpretation.
-// Envelope validation is not a complete message or procedure conformance check.
+// Compound values default to their TS-defined value octets; typed helpers are
+// introduced one IE at a time without removing the raw constructors. For example,
+// QualityOfServiceFields and IE.QualityOfService provide the semantic view of the
+// Quality of service IE. Envelope validation is not a complete message or procedure
+// conformance check.
 package ie
