@@ -247,8 +247,10 @@ func ParseWithoutTag(b []byte, prototype *IE) (*IE, error) {
 }
 
 // UnmarshalBinary decodes using i's Kind: NoTag selects positional decoding;
-// otherwise the configured on-wire IEI must match. It copies the value and
-// leaves i unchanged on failure.
+// otherwise the configured on-wire IEI must match. It accepts and retains
+// length-indicated type-4 and type-6 extension octets newer than this release,
+// while Validate and Marshal remain strict. It copies the value and leaves i
+// unchanged on failure.
 func (i *IE) UnmarshalBinary(b []byte) error {
 	return i.unmarshal(b, i != nil && i.Kind != NoTag)
 }
@@ -328,7 +330,7 @@ func (i *IE) unmarshal(b []byte, tagged bool) error {
 	if n > len(b)-offset {
 		return io.ErrUnexpectedEOF
 	}
-	if err := validateLength(d, i.definition, n); err != nil {
+	if err := validateReceivedLength(d, i.definition, n); err != nil {
 		return err
 	}
 	decoded.Payload = slices.Clone(b[offset : offset+n])
@@ -407,14 +409,26 @@ func validateTag(kind Kind, format IEFormat) error {
 	return nil
 }
 
+// validateReceivedLength accepts type-4 and type-6 extensions added after the
+// current TS 24.301 release. The decoder retains all length-indicated octets so
+// a following IE stays aligned; Validate and Marshal remain strict for output.
+func validateReceivedLength(d definition, kind definitionKind, n int) error {
+	if n > d.maxLength && (d.format == IEFormatFour || d.format == IEFormatSix) {
+		return nil
+	}
+	return validateLength(d, kind, n)
+}
+
 func validateLength(d definition, kind definitionKind, n int) error {
 	if n < d.minLength || n > d.maxLength {
 		return fmt.Errorf("%w: %s value has %d octets, want %d..%d", ErrInvalidLength, d.name, n, d.minLength, d.maxLength)
 	}
 	// These optional extensions are complete groups, not arbitrary lengths
-	// within the minimum/maximum range (TS 24.301 clauses 9.9.4.2 and 9.9.4.3).
+	// within the minimum/maximum range (TS 24.301 clauses 9.9.3.36, 9.9.4.2,
+	// and 9.9.4.3).
 	if (kind == APNAggregateMaximumBitRateDefinition && n%2 != 0) ||
 		(kind == EPSQualityOfServiceDefinition && (n-1)%4 != 0) ||
+		(kind == UESecurityCapabilityDefinition && n == 3) ||
 		(kind == PLMNListDefinition && n%3 != 0) ||
 		(kind == PDNAddressDefinition && n != 5 && n != 9 && n != 13) {
 		return fmt.Errorf("%w: incomplete %s value (%d octets)", ErrInvalidLength, d.name, n)

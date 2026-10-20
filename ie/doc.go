@@ -17,6 +17,8 @@
 // Unknown non-comprehension-required IEs are skipped according to TS 24.007
 // EPS rules; unknown comprehension-required IEs return ErrUnknownIE. Colliding
 // known wire formats return ErrAmbiguousIE rather than guessing a boundary.
+// Typed decoding retains type-4 and type-6 extension octets beyond the
+// currently-known value length, while Validate and Marshal reject them.
 //
 // Positional type-1 IEs share octets. MarshalHalfOctets and ParseHalfOctets handle
 // a low/high pair. MarshalWithoutTag on a single type-1 IE uses one storage byte

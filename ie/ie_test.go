@@ -79,6 +79,45 @@ func TestIE_UnmarshalBinary(t *testing.T) {
 	}
 }
 
+func TestIE_UnmarshalBinaryAcceptsUnknownExtensions(t *testing.T) {
+	t.Parallel()
+	for _, tc := range []struct {
+		name    string
+		value   *ie.IE
+		wire    []byte
+		payload []byte
+	}{
+		{
+			name:    "type 4",
+			value:   ie.NewEPSNetworkFeatureSupport(nil),
+			wire:    []byte{byte(ie.EPSNetworkFeatureSupport), 4, 0, 0, 0, 0},
+			payload: []byte{0, 0, 0, 0},
+		},
+		{
+			name:    "type 6",
+			value:   ie.NewCipheringKeyData(nil),
+			wire:    append([]byte{byte(ie.CipheringKeyData), 0x08, 0xf1}, make([]byte, 2289)...),
+			payload: make([]byte, 2289),
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tc.value.UnmarshalBinary(tc.wire); err != nil {
+				t.Fatalf("UnmarshalBinary = %v", err)
+			}
+			if tc.value.Length != uint16(len(tc.payload)) || !bytes.Equal(tc.value.Payload, tc.payload) {
+				t.Fatalf("decoded IE = %+v, want payload %x", tc.value, tc.payload)
+			}
+			if err := tc.value.Validate(); !errors.Is(err, ie.ErrInvalidLength) {
+				t.Fatalf("Validate = %v, want ErrInvalidLength", err)
+			}
+			if _, err := tc.value.Marshal(); !errors.Is(err, ie.ErrInvalidLength) {
+				t.Fatalf("Marshal = %v, want ErrInvalidLength", err)
+			}
+		})
+	}
+}
+
 func TestIE_MarshalWithoutTag(t *testing.T) {
 	t.Parallel()
 	i := ie.NewT3448Value(0x21)
@@ -112,6 +151,31 @@ func TestIE_InvalidEnvelopes(t *testing.T) {
 			t.Parallel()
 			if err := tc.value.Validate(); !errors.Is(err, tc.err) {
 				t.Fatalf("Validate = %v, want %v", err, tc.err)
+			}
+		})
+	}
+}
+
+func TestIE_UESecurityCapabilityLengths(t *testing.T) {
+	t.Parallel()
+	for _, tc := range []struct {
+		name   string
+		length int
+		valid  bool
+	}{
+		{name: "base", length: 2, valid: true},
+		{name: "incomplete optional pair", length: 3},
+		{name: "Iu mode", length: 4, valid: true},
+		{name: "Iu and Gb modes", length: 5, valid: true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			err := ie.NewPositionalUESecurityCapability(make([]byte, tc.length)).Validate()
+			if tc.valid && err != nil {
+				t.Fatalf("Validate = %v", err)
+			}
+			if !tc.valid && !errors.Is(err, ie.ErrInvalidLength) {
+				t.Fatalf("Validate = %v, want ErrInvalidLength", err)
 			}
 		})
 	}

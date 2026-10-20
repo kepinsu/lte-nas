@@ -116,6 +116,11 @@ envelope depends on the message returns `ErrAmbiguousIE`.
 `Payload`. A decoding failure does not modify the IE, and a `MarshalTo` failure
 does not modify the destination buffer. Errors can be inspected with `errors.Is`.
 
+When a typed decoder receives a type-4 or type-6 IE whose length exceeds the
+current catalogue bound, it retains the complete value so the next IE remains
+aligned (TS 24.007 section 11.4.2). `Validate` and marshal methods reject that
+IE: callers must not emit an extension that this release does not define.
+
 ## Generation
 
 Format definitions remain internal. The generation sources are under
