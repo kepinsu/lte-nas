@@ -85,6 +85,16 @@ decoded, err := qos.QualityOfService()
 raw := ie.NewQualityOfService(payload)
 ```
 
+GPRS timer models expose a single `time.Duration` rather than NAS-specific
+unit and multiplier fields. The encoder selects an exact canonical NAS value;
+`Duration == 0` represents a deactivated timer:
+
+```go
+timer, err := ie.NewT3346ValueWithFields(&ie.GPRSTimer2Fields{
+    Duration: 10 * time.Minute,
+})
+```
+
 ## Positional IEs
 
 A positional IE has no IEI: its `Kind` is `ie.NoTag`. Constructors use the
