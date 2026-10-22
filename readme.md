@@ -7,9 +7,9 @@ A Go library for LTE NAS Information Element (IE) envelopes, inspired by
 
 The [`ie`](ie/) package covers the envelopes of all 129 definitions in 3GPP
 TS 24.301 v18.9.0 (Release 18), clause 9.9: V/TV, LV/TLV, and LV-E/TLV-E.
-Compound values remain raw bytes in `IE.Payload`; NAS message presence rules,
-security, and business-level field interpretation are outside this package's
-scope.
+Raw values remain accessible in `IE.Payload`. Typed value models are added one
+IE at a time, beginning with Quality of service; NAS message presence rules and
+procedure-level validation remain outside this package's scope.
 
 - Usage-specific constructors for every tagged IE.
 - Explicit constructors for positional IEs.
@@ -50,6 +50,50 @@ Some tags have different meanings depending on the message. Constants can
 therefore be aliases for the same wire value: `ie.ESMCause` and
 `ie.UENetworkCapability` both equal `0x58`, while their constructors select
 different internal formats and validation rules.
+
+## Typed IE values
+
+The raw constructors are kept for compatibility. When an IE receives a typed
+model, its implementation lives in its own Go file and provides:
+
+- a `…Fields` structure that exposes its semantic fields;
+- a `New…WithFields` constructor that returns an `*IE` and any validation
+  error; and
+- an `(*IE).…` accessor and `Parse…Fields` function for decoding.
+
+For example, [`ie/quality_of_service.go`](ie/quality_of_service.go) translates
+the Quality of service payload defined in TS 24.008 clause 10.5.6.5. Bit rates
+are expressed in bit/s, the bit-rate extensions are selected automatically,
+and the legacy raw constructor remains valid:
+
+```go
+fields := &ie.QualityOfServiceFields{
+    TrafficClass:                ie.QualityOfServiceTrafficClassInteractive,
+    MaximumSDUSize:              1500,
+    MaximumBitRateForUplink:     ie.QualityOfServiceBitRate{BitsPerSecond: 64_000},
+    MaximumBitRateForDownlink:   ie.QualityOfServiceBitRate{BitsPerSecond: 576_000},
+    TransferDelay:               200 * time.Millisecond,
+    GuaranteedBitRateForUplink:  ie.QualityOfServiceBitRate{BitsPerSecond: 8_000},
+    GuaranteedBitRateForDownlink: ie.QualityOfServiceBitRate{BitsPerSecond: 8_000},
+}
+qos, err := ie.NewQualityOfServiceWithFields(fields)
+// qos is a normal *ie.IE and can be marshaled in the usual way.
+
+decoded, err := qos.QualityOfService()
+
+// Existing callers can still supply the complete raw value.
+raw := ie.NewQualityOfService(payload)
+```
+
+GPRS timer models expose a single `time.Duration` rather than NAS-specific
+unit and multiplier fields. The encoder selects an exact canonical NAS value;
+`Duration == 0` represents a deactivated timer:
+
+```go
+timer, err := ie.NewT3346ValueWithFields(&ie.GPRSTimer2Fields{
+    Duration: 10 * time.Minute,
+})
+```
 
 ## Positional IEs
 
@@ -153,5 +197,6 @@ go vet ./...
 Sources:
 
 - [TS 24.301 v18.9.0, clause 9.9 and tables 8.2/8.3](https://www.etsi.org/deliver/etsi_ts/124300_124399/124301/18.09.00_60/ts_124301v180900p.pdf)
+- [TS 24.008 v18.7.0, clause 10.5.6.5](https://www.etsi.org/deliver/etsi_ts/124000_124099/124008/18.07.00_60/ts_124008v180700p.pdf)
 - [TS 24.007 v18.1.0, clauses 11.2.4–11.2.5](https://www.etsi.org/deliver/etsi_ts/124000_124099/124007/18.01.00_60/ts_124007v180100p.pdf)
 - [go-gtp](https://github.com/wmnsk/go-gtp/tree/main/gtpv2/ie)
