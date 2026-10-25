@@ -1,0 +1,130 @@
+kind,name,clause,format,minLength,maxLength
+AdditionalInformation,Additional information,9.9.2.0,4,1,255
+DeviceProperties,Device properties,9.9.2.0A,1,1,1
+EPSBearerContextStatus,EPS bearer context status,9.9.2.1,4,2,2
+LocationAreaIdentification,Location area identification,9.9.2.2,3,5,5
+MobileIdentity,Mobile identity,9.9.2.3,4,1,9
+MobileStationClassmark2,Mobile station classmark 2,9.9.2.4,4,3,3
+MobileStationClassmark3,Mobile station classmark 3,9.9.2.5,4,0,32
+NASSecurityParametersFromEUTRA,NAS security parameters from E-UTRA,9.9.2.6,3,1,1
+NASSecurityParametersToEUTRA,NAS security parameters to E-UTRA,9.9.2.7,3,6,6
+PLMNList,PLMN list,9.9.2.8,4,3,45
+SpareHalfOctet,Spare half octet,9.9.2.9,1,1,1
+SupportedCodecList,Supported codec list,9.9.2.10,4,3,255
+AdditionalUpdateResult,Additional update result,9.9.3.0A,1,1,1
+AdditionalUpdateType,Additional update type,9.9.3.0B,1,1,1
+AuthenticationFailureParameter,Authentication failure parameter,9.9.3.1,4,14,14
+AuthenticationParameterAUTN,Authentication parameter AUTN,9.9.3.2,4,16,16
+AuthenticationParameterRAND,Authentication parameter RAND,9.9.3.3,3,16,16
+AuthenticationResponseParameter,Authentication response parameter,9.9.3.4,4,4,16
+CipheringKeySequenceNumber,Ciphering key sequence number,9.9.3.4A,1,1,1
+SMSServicesStatus,SMS services status,9.9.3.4B,1,1,1
+CSFBResponse,CSFB response,9.9.3.5,1,1,1
+DaylightSavingTime,Daylight saving time,9.9.3.6,4,1,1
+DetachType,Detach type,9.9.3.7,1,1,1
+DRXParameter,DRX parameter,9.9.3.8,3,2,2
+EMMCause,EMM cause,9.9.3.9,3,1,1
+EPSAttachResult,EPS attach result,9.9.3.10,1,1,1
+EPSAttachType,EPS attach type,9.9.3.11,1,1,1
+EPSMobileIdentity,EPS mobile identity,9.9.3.12,4,1,11
+EPSNetworkFeatureSupport,EPS network feature support,9.9.3.12A,4,1,3
+EPSUpdateResult,EPS update result,9.9.3.13,1,1,1
+EPSUpdateType,EPS update type,9.9.3.14,1,1,1
+ESMMessageContainer,ESM message container,9.9.3.15,6,0,65535
+GPRSTimer,GPRS timer,9.9.3.16,3,1,1
+GPRSTimer2,GPRS timer 2,9.9.3.16A,4,1,1
+GPRSTimer3,GPRS timer 3,9.9.3.16B,4,1,1
+IdentityType2,Identity type 2,9.9.3.17,1,1,1
+IMEISVRequest,IMEISV request,9.9.3.18,1,1,1
+KSIAndSequenceNumber,KSI and sequence number,9.9.3.19,3,1,1
+MSNetworkCapability,MS network capability,9.9.3.20,4,2,8
+MSNetworkFeatureSupport,MS network feature support,9.9.3.20A,1,1,1
+NASKeySetIdentifier,NAS key set identifier,9.9.3.21,1,1,1
+NASMessageContainer,NAS message container,9.9.3.22,4,2,251
+NASSecurityAlgorithms,NAS security algorithms,9.9.3.23,3,1,1
+NetworkName,Network name,9.9.3.24,4,1,255
+NetworkResourceIdentifierContainer,Network resource identifier container,9.9.3.24A,4,2,2
+Nonce,Nonce,9.9.3.25,3,4,4
+PagingIdentity,Paging identity,9.9.3.25A,3,1,1
+PTMSISignature,P-TMSI signature,9.9.3.26,3,3,3
+ExtendedEMMCause,Extended EMM cause,9.9.3.26A,1,1,1
+ServiceType,Service type,9.9.3.27,1,1,1
+ShortMAC,Short MAC,9.9.3.28,3,2,2
+TimeZone,Time zone,9.9.3.29,3,1,1
+TimeZoneAndTime,Time zone and time,9.9.3.30,3,7,7
+TMSIStatus,TMSI status,9.9.3.31,1,1,1
+TrackingAreaIdentity,Tracking area identity,9.9.3.32,3,5,5
+TrackingAreaIdentityList,Tracking area identity list,9.9.3.33,4,6,96
+UENetworkCapability,UE network capability,9.9.3.34,4,2,13
+UERadioCapabilityInformationUpdateNeeded,UE radio capability information update needed,9.9.3.35,1,1,1
+UESecurityCapability,UE security capability,9.9.3.36,4,2,5
+EmergencyNumberList,Emergency Number List,9.9.3.37,4,3,48
+ExtendedEmergencyNumberList,Extended emergency number list,9.9.3.37A,6,4,65535
+CLI,CLI,9.9.3.38,4,1,12
+SSCode,SS Code,9.9.3.39,3,1,1
+LCSIndicator,LCS indicator,9.9.3.40,3,1,1
+LCSClientIdentity,LCS client identity,9.9.3.41,4,1,255
+GenericMessageContainerType,Generic message container type,9.9.3.42,3,1,1
+GenericMessageContainer,Generic message container,9.9.3.43,6,1,65535
+VoiceDomainPreferenceAndUEUsageSetting,Voice domain preference and UE's usage setting,9.9.3.44,4,1,1
+GUTIType,GUTI type,9.9.3.45,1,1,1
+ExtendedDRXParameters,Extended DRX parameters,9.9.3.46,4,1,1
+ControlPlaneServiceType,Control plane service type,9.9.3.47,1,1,1
+DCNID,DCN-ID,9.9.3.48,4,2,2
+Non3GPPNWProvidedPolicies,Non-3GPP NW provided policies,9.9.3.49,1,1,1
+HashMME,HashMME,9.9.3.50,4,8,8
+ReplayedNASMessageContainer,Replayed NAS message container,9.9.3.51,6,0,65535
+NetworkPolicy,Network policy,9.9.3.52,1,1,1
+UEAdditionalSecurityCapability,UE additional security capability,9.9.3.53,4,4,4
+UEStatus,UE status,9.9.3.54,4,1,1
+AdditionalInformationRequested,Additional information requested,9.9.3.55,3,1,1
+CipheringKeyData,Ciphering key data,9.9.3.56,6,32,2288
+N1UENetworkCapability,N1 UE network capability,9.9.3.57,4,1,13
+UERadioCapabilityIDAvailability,UE radio capability ID availability,9.9.3.58,4,1,1
+UERadioCapabilityIDRequest,UE radio capability ID request,9.9.3.59,4,1,1
+UERadioCapabilityID,UE radio capability ID,9.9.3.60,4,1,255
+UERadioCapabilityIDDeletionIndication,UE radio capability ID deletion indication,9.9.3.61,1,1,1
+WUSAssistanceInformation,WUS assistance information,9.9.3.62,4,1,255
+NBS1DRXParameter,NB-S1 DRX parameter,9.9.3.63,4,1,1
+IMSIOffset,IMSI offset,9.9.3.64,4,2,2
+UERequestType,UE request type,9.9.3.65,4,1,1
+PagingRestriction,Paging restriction,9.9.3.66,4,1,3
+EPSAdditionalRequestResult,EPS additional request result,9.9.3.67,4,1,1
+TimeDuration,Time duration,9.9.3.68,4,3,3
+UnavailabilityInformation,Unavailability information,9.9.3.69,4,1,7
+UnavailabilityConfiguration,Unavailability configuration,9.9.3.70,4,1,7
+UEInformationRequest,UE information request,9.9.3.71,1,1,1
+UECoarseLocationInformation,UE coarse location information,9.9.3.72,4,6,6
+AccessPointName,Access point name,9.9.4.1,4,1,100
+APNAggregateMaximumBitRate,APN aggregate maximum bit rate,9.9.4.2,4,2,6
+ConnectivityType,Connectivity type,9.9.4.2A,1,1,1
+EPSQualityOfService,EPS quality of service,9.9.4.3,4,1,13
+ESMCause,ESM cause,9.9.4.4,3,1,1
+ESMInformationTransferFlag,ESM information transfer flag,9.9.4.5,1,1,1
+LinkedEPSBearerIdentity,Linked EPS bearer identity,9.9.4.6,1,1,1
+LLCServiceAccessPointIdentifier,LLC service access point identifier,9.9.4.7,3,1,1
+NotificationIndicator,Notification indicator,9.9.4.7A,4,1,1
+PacketFlowIdentifier,Packet flow identifier,9.9.4.8,4,1,1
+PDNAddress,PDN address,9.9.4.9,4,5,13
+PDNType,PDN type,9.9.4.10,1,1,1
+ProtocolConfigurationOptions,Protocol configuration options,9.9.4.11,4,1,251
+QualityOfService,Quality of service,9.9.4.12,4,12,20
+RadioPriority,Radio priority,9.9.4.13,1,1,1
+ReAttemptIndicator,Re-attempt indicator,9.9.4.13A,4,1,1
+RequestType,Request type,9.9.4.14,1,1,1
+TrafficFlowAggregateDescription,Traffic flow aggregate description,9.9.4.15,4,1,255
+TrafficFlowTemplate,Traffic flow template,9.9.4.16,4,1,255
+TransactionIdentifier,Transaction identifier,9.9.4.17,4,1,2
+WLANOffloadAcceptability,WLAN offload acceptability,9.9.4.18,1,1,1
+NBIFOMContainer,NBIFOM container,9.9.4.19,4,1,255
+RemoteUEContextList,Remote UE context list,9.9.4.20,6,2,65535
+PKMFAddress,PKMF address,9.9.4.21,4,1,17
+HeaderCompressionConfiguration,Header compression configuration,9.9.4.22,4,3,255
+ControlPlaneOnlyIndication,Control plane only indication,9.9.4.23,1,1,1
+UserDataContainer,User data container,9.9.4.24,6,0,65535
+ReleaseAssistanceIndication,Release assistance indication,9.9.4.25,1,1,1
+ExtendedProtocolConfigurationOptions,Extended protocol configuration options,9.9.4.26,6,1,65535
+HeaderCompressionConfigurationStatus,Header compression configuration status,9.9.4.27,4,2,2
+ServingPLMNRateControl,Serving PLMN rate control,9.9.4.28,4,2,2
+ExtendedAPNAggregateMaximumBitRate,Extended APN aggregate maximum bit rate,9.9.4.29,4,6,6
+ExtendedQualityOfService,Extended quality of service,9.9.4.30,4,10,10

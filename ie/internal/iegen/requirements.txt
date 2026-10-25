@@ -1,0 +1,2 @@
+# Optional: only needed when extract_catalogue.py reads a PDF rather than text.
+pypdf==6.21.1

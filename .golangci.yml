@@ -1,0 +1,129 @@
+version: "2"
+run:
+  concurrency: 4
+  issues-exit-code: 1
+  tests: false
+  allow-parallel-runners: true
+output:
+  formats:
+    text:
+      path: stdout
+      print-linter-name: true
+      print-issued-lines: true
+linters:
+  enable:
+    - asciicheck
+    - bodyclose
+    - dogsled
+    - godox
+    - gosec
+    - lll
+    - misspell
+    - nakedret
+    - noctx
+    - predeclared
+    - unconvert
+    - whitespace
+    - staticcheck
+  settings:
+    errcheck:
+      check-type-assertions: false
+      check-blank: true
+    funlen:
+      lines: 60
+      statements: 40
+    gocognit:
+      min-complexity: 10
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+    gocritic:
+      disabled-checks:
+        - regexpMust
+      enabled-tags:
+        - performance
+      disabled-tags:
+        - experimental
+      settings:
+        captLocal:
+          paramsOnly: true
+        rangeValCopy:
+          sizeThreshold: 32
+    gocyclo:
+      min-complexity: 10
+    godox:
+      keywords:
+        - FIXME
+        - BUG
+        - XXX
+    govet:
+      enable:
+        - atomicalign
+        - shadow
+      enable-all: false
+      disable-all: false
+      settings:
+        printf:
+          funcs:
+            - (github.com/golangci/golangci-lint/pkg/logutils.Log).Infof
+            - (github.com/golangci/golangci-lint/pkg/logutils.Log).Warnf
+            - (github.com/golangci/golangci-lint/pkg/logutils.Log).Errorf
+            - (github.com/golangci/golangci-lint/pkg/logutils.Log).Fatalf
+    lll:
+      line-length: 120
+      tab-width: 1
+    nakedret:
+      max-func-lines: 30
+    nestif:
+      min-complexity: 4
+    testpackage:
+      skip-regexp: (export|internal)_test\.go
+    whitespace:
+      multi-if: false
+      multi-func: false
+    wsl:
+      strict-append: true
+      allow-assign-and-call: true
+      allow-multiline-assign: true
+      force-case-trailing-whitespace: 0
+      allow-trailing-comment: true
+      allow-separated-leading-comment: false
+      allow-cuddle-declarations: false
+      force-err-cuddling: false
+  exclusions:
+    generated: lax
+    rules:
+      - path: (.+)\.go$
+        text: G115
+      - path: (.+)\.go$
+        text: G301
+      - path: (.+)\.go$
+        text: G302
+      - path: (.+)\.go$
+        text: G307
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  uniq-by-line: true
+  new-from-rev: ""
+  new: false
+severity:
+  default: error
+  rules:
+    - linters:
+        - mnd
+      severity: ignore
+formatters:
+  enable:
+    - gci
+    - gofmt
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - localmodule
+    gofmt:
+      simplify: true
